@@ -370,7 +370,7 @@ def audit_and_clean(df_raw: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
 
     n_dup = int(df.duplicated().sum())
     rep["exact_duplicates_dropped"] = n_dup
-    df = df.drop_duplicates().reset_index(drop=True)
+    #df = df.drop_duplicates().reset_index(drop=True)
     df["AGE_ORD"] = df["AGE"].map(AGE_MAP)
     rep["missing_after_coercion"] = df.isna().sum().to_dict()
     rep["missing_pct_after_coercion"] = (df.isna().mean() * 100).round(3).to_dict()
