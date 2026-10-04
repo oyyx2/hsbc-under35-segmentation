@@ -1,0 +1,187 @@
+{
+  "data_quality": {
+    "shape_raw": [
+      50000,
+      14
+    ],
+    "missing_native": {
+      "AGE": 0,
+      "INCOME": 0,
+      "TRB": 0,
+      "DIG_ACTIVE": 0,
+      "FX_TRANS": 0,
+      "PAYME": 0,
+      "CC": 0,
+      "LN": 0,
+      "MT": 0,
+      "TD": 0,
+      "SC": 0,
+      "SP": 0,
+      "BD": 0,
+      "MPF": 0
+    },
+    "missing_after_token_normalisation": {
+      "AGE": 0,
+      "INCOME": 0,
+      "TRB": 0,
+      "DIG_ACTIVE": 0,
+      "FX_TRANS": 0,
+      "PAYME": 0,
+      "CC": 0,
+      "LN": 0,
+      "MT": 0,
+      "TD": 0,
+      "SC": 0,
+      "SP": 0,
+      "BD": 0,
+      "MPF": 0
+    },
+    "dirty_values": {
+      "AGE": {
+        "invalid_codes_set_to_nan": 0,
+        "raw_unique_sample": [
+          "30-34",
+          "25-29",
+          "18-24"
+        ]
+      },
+      "INCOME": {
+        "unparsable_to_nan": 0,
+        "infinite_to_nan": 0,
+        "negative_to_nan": 665,
+        "zeros": 0
+      },
+      "TRB": {
+        "unparsable_to_nan": 0,
+        "infinite_to_nan": 0,
+        "negative_to_nan": 0,
+        "zeros": 1639
+      },
+      "DIG_ACTIVE": {
+        "invalid_codes_set_to_nan": 0
+      },
+      "FX_TRANS": {
+        "invalid_codes_set_to_nan": 0
+      },
+      "PAYME": {
+        "invalid_codes_set_to_nan": 0
+      },
+      "CC": {
+        "invalid_codes_set_to_nan": 0
+      },
+      "LN": {
+        "invalid_codes_set_to_nan": 0
+      },
+      "MT": {
+        "invalid_codes_set_to_nan": 0
+      },
+      "TD": {
+        "invalid_codes_set_to_nan": 0
+      },
+      "SC": {
+        "invalid_codes_set_to_nan": 0
+      },
+      "SP": {
+        "invalid_codes_set_to_nan": 0
+      },
+      "BD": {
+        "invalid_codes_set_to_nan": 0
+      },
+      "MPF": {
+        "invalid_codes_set_to_nan": 0
+      }
+    },
+    "rows_all_missing_dropped": 0,
+    "rows_gt50pct_missing_dropped": 0,
+    "exact_duplicates_dropped": 1195,
+    "missing_after_coercion": {
+      "AGE": 0,
+      "INCOME": 665,
+      "TRB": 0,
+      "DIG_ACTIVE": 0,
+      "FX_TRANS": 0,
+      "PAYME": 0,
+      "CC": 0,
+      "LN": 0,
+      "MT": 0,
+      "TD": 0,
+      "SC": 0,
+      "SP": 0,
+      "BD": 0,
+      "MPF": 0,
+      "AGE_ORD": 0
+    },
+    "missing_pct_after_coercion": {
+      "AGE": 0.0,
+      "INCOME": 1.363,
+      "TRB": 0.0,
+      "DIG_ACTIVE": 0.0,
+      "FX_TRANS": 0.0,
+      "PAYME": 0.0,
+      "CC": 0.0,
+      "LN": 0.0,
+      "MT": 0.0,
+      "TD": 0.0,
+      "SC": 0.0,
+      "SP": 0.0,
+      "BD": 0.0,
+      "MPF": 0.0,
+      "AGE_ORD": 0.0
+    },
+    "consistency_flags": {
+      "TRB_zero_but_holds_deposit_or_investment": 180,
+      "mortgage_holder_aged_18_24": 841,
+      "zero_income_with_loan_or_mortgage": 0
+    },
+    "shape_clean_pre_imputation": [
+      48805,
+      15
+    ],
+    "imputation": {
+      "method": "knn",
+      "rows_with_missing": 665,
+      "cells_imputed": {
+        "AGE_ORD": 0,
+        "LOG_INCOME": 665,
+        "LOG_TRB": 0,
+        "DIG_ACTIVE": 0,
+        "FX_TRANS": 0,
+        "PAYME": 0,
+        "CC": 0,
+        "LN": 0,
+        "MT": 0,
+        "TD": 0,
+        "SC": 0,
+        "SP": 0,
+        "BD": 0,
+        "MPF": 0
+      }
+    }
+  },
+  "outliers": {
+    "INCOME": {
+      "skew_raw": 11.944955756766987,
+      "kurtosis_raw": 412.9715193792298,
+      "skew_log": -1.5947987154302785,
+      "kurtosis_log": 7.271942510812442,
+      "iqr_raw_outliers_pct": 4.001639176313902,
+      "iqr_log_outliers_pct": 6.030119864767954,
+      "robust_z_log_gt3.5_pct": 2.825530171089028,
+      "p99": 103899.9584966122,
+      "max": 1380715.283664743
+    },
+    "TRB": {
+      "skew_raw": 15.892681970157856,
+      "kurtosis_raw": 605.7756952272758,
+      "skew_log": -1.1579427479010433,
+      "kurtosis_log": 1.4872863173330497,
+      "iqr_raw_outliers_pct": 10.83085749410921,
+      "iqr_log_outliers_pct": 3.42792746644811,
+      "robust_z_log_gt3.5_pct": 2.059215244339719,
+      "p99": 1511421.801718677,
+      "max": 22820080.8335008
+    },
+    "isolation_forest_pct": 1.001946521872759,
+    "decision": "Extreme INCOME/TRB values are plausible (affluent customers), not errors, so they are KEPT. Their effect is controlled by transformations benchmarked in Step 5."
+  }
+}

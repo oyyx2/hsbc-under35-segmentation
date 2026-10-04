@@ -1,0 +1,129 @@
+19:02:10 | INFO    | ================================================================================
+19:02:10 | INFO    | HSBC SYNTHETIC DATA – SEGMENTATION & PERSONA PIPELINE
+19:02:10 | INFO    | ================================================================================
+19:02:10 | INFO    | Loading /Users/boris/Desktop/research/segmentation_hsbc/ST138D-XLS-ENG.xlsx
+19:02:14 | INFO    |    sheet used: 'Synthetic Data' (available: ['Data Dictionary', 'Synthetic Data'])
+19:02:14 | INFO    |    raw shape: (50000, 14)
+19:02:14 | INFO    | STEP 2 | Data-quality audit & cleaning
+19:02:14 | INFO    |    AGE        {'invalid_codes_set_to_nan': 0}
+19:02:14 | INFO    |    INCOME     {'unparsable_to_nan': 0, 'infinite_to_nan': 0, 'negative_to_nan': 665, 'zeros': 0}
+19:02:14 | INFO    |    TRB        {'unparsable_to_nan': 0, 'infinite_to_nan': 0, 'negative_to_nan': 0, 'zeros': 1639}
+19:02:14 | INFO    |    DIG_ACTIVE {'invalid_codes_set_to_nan': 0}
+19:02:14 | INFO    |    FX_TRANS   {'invalid_codes_set_to_nan': 0}
+19:02:14 | INFO    |    PAYME      {'invalid_codes_set_to_nan': 0}
+19:02:14 | INFO    |    CC         {'invalid_codes_set_to_nan': 0}
+19:02:14 | INFO    |    LN         {'invalid_codes_set_to_nan': 0}
+19:02:14 | INFO    |    MT         {'invalid_codes_set_to_nan': 0}
+19:02:14 | INFO    |    TD         {'invalid_codes_set_to_nan': 0}
+19:02:14 | INFO    |    SC         {'invalid_codes_set_to_nan': 0}
+19:02:14 | INFO    |    SP         {'invalid_codes_set_to_nan': 0}
+19:02:14 | INFO    |    BD         {'invalid_codes_set_to_nan': 0}
+19:02:14 | INFO    |    MPF        {'invalid_codes_set_to_nan': 0}
+19:02:14 | INFO    |    duplicates dropped: 1195 | consistency flags: {'TRB_zero_but_holds_deposit_or_investment': 180, 'mortgage_holder_aged_18_24': 841, 'zero_income_with_loan_or_mortgage': 0}
+19:02:16 | INFO    |    figure saved -> 01_missing_values.png
+19:02:16 | INFO    | STEP 3 | Imputation benchmark (masked-cell simulation)
+19:02:17 | INFO    | 
+            mean_nrmse         mean_balanced_acc         score_lower_better         seconds        
+                  mean     std              mean     std               mean     std    mean     std
+method                                                                                             
+iterative       0.8476  0.0416            0.5192  0.0036             1.3285  0.0381  0.1852  0.0088
+knn             0.8343  0.0534            0.5525  0.0126             1.2818  0.0566  0.3707  0.0566
+median_mode     1.0064  0.0636            0.4861  0.0000             1.5203  0.0636  0.0248  0.0059
+   -> best imputer: knn
+19:02:18 | INFO    |    figure saved -> 02_imputation_benchmark.png
+19:02:18 | INFO    |    imputed 665 rows with 'knn'
+19:02:18 | INFO    | STEP 4 | Outlier analysis
+19:02:19 | INFO    |    INCOME: {'skew_raw': 11.94, 'kurtosis_raw': 412.97, 'skew_log': -1.59, 'kurtosis_log': 7.27, 'iqr_raw_outliers_pct': 4.0, 'iqr_log_outliers_pct': 6.03, 'robust_z_log_gt3.5_pct': 2.83, 'p99': 103899.96, 'max': 1380715.28}
+19:02:19 | INFO    |    TRB: {'skew_raw': 15.89, 'kurtosis_raw': 605.78, 'skew_log': -1.16, 'kurtosis_log': 1.49, 'iqr_raw_outliers_pct': 10.83, 'iqr_log_outliers_pct': 3.43, 'robust_z_log_gt3.5_pct': 2.06, 'p99': 1511421.8, 'max': 22820080.83}
+19:02:19 | INFO    |    IsolationForest multivariate outliers: 1.00%
+19:02:20 | INFO    |    figure saved -> 03_distributions_raw_vs_log.png
+19:02:21 | INFO    |    figure saved -> 04_outlier_boxplots.png
+19:02:21 | INFO    |    figure saved -> 05_penetration_and_age.png
+19:02:22 | INFO    |    figure saved -> 06_correlation_spearman.png
+19:02:22 | INFO    | STEP 5 | Outlier-handling / preprocessing benchmark
+19:02:29 | INFO    |    raw_standard           done
+19:02:36 | INFO    |    log_standard           done
+19:02:43 | INFO    |    winsor_log_standard    done
+19:02:50 | INFO    |    yeo_johnson            done
+19:02:57 | INFO    |    quantile_normal        done
+19:03:04 | INFO    |    log_robust             done
+19:03:11 | INFO    |    iforest_trimmed        done
+19:03:11 | INFO    | 
+                     mean_silhouette  max_silhouette  mean_db  mean_stability  n_valid_k  rank_score
+strategy                                                                                            
+log_standard                  0.1683          0.1970   1.7107          0.9030          6      1.3333
+iforest_trimmed               0.1678          0.1975   1.7119          0.8685          6      2.3333
+winsor_log_standard           0.1674          0.1968   1.7178          0.8496          6      3.3333
+yeo_johnson                   0.1622          0.1943   1.6902          0.7485          6      3.3333
+quantile_normal               0.1581          0.1891   1.7556          0.8076          5      4.6667
+log_robust                    0.1417          0.1844   1.8633          0.7481          6      6.0000
+   -> best: log_standard | runner-up: iforest_trimmed
+19:03:12 | INFO    |    figure saved -> 07_preprocessing_benchmark.png
+19:03:12 | INFO    | STEP 6 | Hopkins statistic = 0.924 (0.5 = random, >0.75 = strong tendency)
+19:03:12 | INFO    | STEP 7 | K-Means & optimal-k search
+19:03:14 | INFO    |    k= 3 sil=0.194 CH=11879 DB=1.710 stab=0.987±0.004 min_share=0.219
+19:03:16 | INFO    |    k= 4 sil=0.193 CH=10959 DB=1.540 stab=0.986±0.007 min_share=0.129
+19:03:18 | INFO    |    k= 5 sil=0.166 CH=9821 DB=1.693 stab=0.669±0.299 min_share=0.087
+19:03:21 | INFO    |    k= 6 sil=0.151 CH=9045 DB=1.698 stab=0.921±0.063 min_share=0.058
+19:03:23 | INFO    |    k= 7 sil=0.153 CH=8320 DB=1.737 stab=0.871±0.161 min_share=0.050
+19:03:26 | INFO    |    k= 8 sil=0.144 CH=7700 DB=1.855 stab=0.805±0.160 min_share=0.051
+19:03:29 | INFO    |    k= 9 sil=0.145 CH=7181 DB=1.756 stab=0.643±0.151 min_share=0.013
+19:03:32 | INFO    |    k=10 sil=0.137 CH=6774 DB=1.782 stab=0.685±0.113 min_share=0.013
+19:03:36 | INFO    |    votes: {'elbow': 6, 'gap_tibshirani': 3, 'silhouette': 3, 'calinski_harabasz': 3, 'davies_bouldin': 4, 'stability': 3, 'composite_rank_selected': 3}  -> K* = 3
+19:03:37 | INFO    |    figure saved -> 08_kmeans_k_selection.png
+19:03:37 | INFO    | STEP 8 | Hierarchical clustering
+19:03:40 | INFO    |    cophenetic correlation: {'ward': 0.467, 'average': 0.683, 'complete': 0.442}
+19:03:44 | INFO    |    hierarchical own best k = 3; labels at K*=3 propagated (kNN CV acc=0.960)
+19:03:47 | INFO    |    figure saved -> 09_hierarchical_dendrogram.png
+19:03:48 | INFO    |    figure saved -> 10_hierarchical_k_selection.png
+19:03:48 | INFO    | STEP 9 | Advanced composite method: FAMD embedding + Gaussian Mixture Model
+19:03:48 | INFO    |    FAMD components retained: 12 (85% inertia)
+19:03:49 | INFO    |    k= 3 BIC=593558 sil=0.198 maxP=1.000
+19:03:51 | INFO    |    k= 4 BIC=448049 sil=0.221 maxP=1.000
+19:03:54 | INFO    |    k= 5 BIC=473937 sil=0.116 maxP=1.000
+19:03:56 | INFO    |    k= 6 BIC=404739 sil=0.141 maxP=1.000
+19:03:59 | INFO    |    k= 7 BIC=-2483 sil=0.154 maxP=1.000
+19:04:02 | INFO    |    k= 8 BIC=56399 sil=0.155 maxP=1.000
+19:04:06 | INFO    |    k= 9 BIC=-282116 sil=0.151 maxP=1.000
+19:04:08 | INFO    |    k=10 BIC=-345194 sil=0.160 maxP=0.999
+19:04:10 | INFO    |    GMM own best k = 9 (min BIC); fitted at K*=3
+19:04:10 | INFO    |    figure saved -> 11_famd_gmm_selection.png
+19:04:11 | INFO    | STEP 10 | Ensemble consensus clustering over 7 base partitions
+19:04:20 | INFO    | 
+           candidate    ANMI  n_clusters  min_share  valid
+0        EAC_average  0.5418           3     0.2186   True
+1           EAC_ward  0.5310           3     0.2080   True
+2  MetaKMeans_onehot  0.5416           3     0.2183   True
+   -> consensus selected: EAC_average
+19:04:22 | INFO    |    figure saved -> 12_coassociation_matrix.png
+19:04:22 | INFO    | STEP 11 | Statistical validation
+19:04:26 | INFO    | 
+           method  n_clusters  silhouette  calinski_harabasz  davies_bouldin  min_share
+0       KMeans_k3           3      0.1933         11879.2780          1.7127     0.2174
+1      Ward_HC_k3           3      0.1495          8795.1796          1.9297     0.2019
+2     FAMD_GMM_k3           3      0.0427           910.2292          4.9742     0.0505
+3  FAMD_KMeans_k3           3      0.1267          5352.4806          2.8534     0.0505
+4        ENSEMBLE           3      0.1933         11877.9413          1.7128     0.2186
+19:04:27 | INFO    |    figure saved -> 13_method_agreement.png
+19:04:47 | INFO    |    figure saved -> 17_permutation_null_test.png
+19:04:58 | INFO    |    figure saved -> 18_segment_drivers_importance.png
+19:04:59 | INFO    |    null test: z=10.76, p=0.0476
+19:04:59 | INFO    |    ensemble bootstrap ARI=0.927±0.029; Jaccard per segment=[0.971 0.928 0.933]
+19:04:59 | INFO    |    RF separability acc=0.981±0.003 (chance=0.469)
+19:04:59 | INFO    | STEP 12 | Profiling & personas
+19:04:59 | INFO    |    S0 [46.5%] Affluent Card-Spender – Establishing Adults (30-34)
+19:04:59 | INFO    |    S1 [31.7%] Mass-Market Mainstream – Gen-Z Starters (18-24)
+19:04:59 | INFO    |    S2 [21.9%] Entry-Level Low-Engagement (Digital-Light) – Establishing Adults (30-34)
+19:04:59 | INFO    |    figure saved -> 14_pca_projection_methods.png
+19:05:00 | INFO    |    figure saved -> 15_silhouette_final.png
+19:05:01 | INFO    |    figure saved -> 16_segment_sizes_and_stability.png
+19:05:01 | INFO    |    figure saved -> 19_profile_heatmap_lift.png
+19:05:01 | INFO    |    figure saved -> 20_persona_radar.png
+19:05:01 | INFO    | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+19:05:01 | INFO    | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+19:05:01 | INFO    | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+19:05:01 | INFO    | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+19:05:02 | INFO    |    figure saved -> 21_segment_distributions.png
+19:05:02 | INFO    | ================================================================================
+19:05:02 | INFO    | DONE in 2.9 min | outputs -> /Users/boris/Desktop/research/segmentation_hsbc/outputs
+19:05:02 | INFO    | ================================================================================

@@ -1,0 +1,63 @@
+{
+  "0": {
+    "name": "Affluent Card-Spender",
+    "life_stage": "Establishing Adults (30-34)",
+    "size": 22682,
+    "share": 0.46474746439913944,
+    "median_income_hkd": 37514.316650104214,
+    "median_trb_hkd": 154692.2081591945,
+    "avg_products": 1.6530288334362049,
+    "digital_active_rate": 0.8998324662728154,
+    "over_indexed": [
+      "Credit card (67%, x1.4)",
+      "Mortgage (10%, x1.3)",
+      "Securities (13%, x1.3)"
+    ],
+    "under_indexed": [],
+    "recommended_actions": [
+      "Retention & deepening: loyalty / relationship upgrade"
+    ]
+  },
+  "1": {
+    "name": "Mass-Market Mainstream",
+    "life_stage": "Gen-Z Starters (18-24)",
+    "size": 15456,
+    "share": 0.31668886384591743,
+    "median_income_hkd": 26997.55260446633,
+    "median_trb_hkd": 15813.118403095476,
+    "avg_products": 1.043348861283644,
+    "digital_active_rate": 0.8931806418219461,
+    "over_indexed": [],
+    "under_indexed": [
+      "Securities (7%, x0.7)",
+      "Mortgage (6%, x0.7)",
+      "MPF (19%, x0.7)"
+    ],
+    "recommended_actions": [
+      "MPF consolidation & tax-deductible voluntary contributions (TVC)",
+      "Low-cost securities trading & monthly stock-investment plan"
+    ]
+  },
+  "2": {
+    "name": "Entry-Level Low-Engagement (Digital-Light)",
+    "life_stage": "Establishing Adults (30-34)",
+    "size": 10667,
+    "share": 0.21856367175494315,
+    "median_income_hkd": 9978.94196745796,
+    "median_trb_hkd": 2120.480464460908,
+    "avg_products": 0.7559763757382582,
+    "digital_active_rate": 0.5589200337489454,
+    "over_indexed": [],
+    "under_indexed": [
+      "Term deposit (6%, x0.7)",
+      "FX transaction (13%, x0.5)",
+      "Credit card (16%, x0.3)"
+    ],
+    "recommended_actions": [
+      "Channel: digital migration nudges (SMS/branch QR to app activation)",
+      "Starter / cash-back credit card linked to PayMe",
+      "Digital-banking activation journey (app onboarding, e-statements)",
+      "PayMe activation with P2P / merchant incentives"
+    ]
+  }
+}
