@@ -10,11 +10,21 @@ K-Means / Ward / FAMD+GMM → consensus ensemble → bootstrap and permutation v
 
 ~~~
 segmentation.py      # full pipeline
+age_weight_sensitivity.py   # age-band weight sensitivity check
 requirements.txt     # dependencies
 ST138D-XLS-ENG.xlsx  # input data
 figures/             # generated charts
 outputs/             # generated tables and results
 ~~~
+
+## Sensitivity checks
+
+Two robustness checks were added without changing the baseline segmentation:
+
+- **Duplicate handling:** keeping all 50,000 simulated customer rows produces a similar three-segment solution when the baseline preprocessing and k=3 are held fixed.
+- **Age-band weighting:** reducing the standardized age-band weight changes the young-starter segment substantially, while the high-balance segment remains relatively stable.
+
+These checks suggest that the baseline is best interpreted as a **life-stage + wealth segmentation**.
 
 ## Clone and run
 
